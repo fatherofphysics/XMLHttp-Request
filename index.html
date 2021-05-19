@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>XMLHttpRequest API</title>
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+	<div id="container">
+	</div>
+
+
+	<script>
+		const container = document.querySelector("#container")
+
+		// sending request to the api server
+		const request = new XMLHttpRequest()
+		request.open("GET","https://restcountries.eu/rest/v2/callingcode/91")
+		request.send()
+
+		// getting response from the api server
+		request.addEventListener('load', function(){
+			const [data] = JSON.parse(this.responseText)
+			console.log(data)
+			const htmlData = `<div class="card">
+			<div class="card-img">
+				<img src="${data.flag}" alt="flag">
+				<h1>Country : ${data.name}</h1>
+			<h2>Capital : ${data.capital}</h2>
+			</div>
+			<div class="card-description">
+			<p>Population : ${data.population}</p>
+			<p>Currency : ${data.currencies[0].name}</p>
+			<p>Currency symbol : ${data.currencies[0].symbol}</p>
+			<p>Native language : ${data.languages[0].nativeName}</p>
+			</div>
+		</div>`
+
+
+			container.insertAdjacentHTML("afterbegin",htmlData)
+		})
+
+	</script>
+</body>
+</html>
